@@ -1,0 +1,113 @@
+# TimeGauge ⏳
+
+**Visualize your remaining time, not just the clock.**
+
+TimeGauge is a lightweight, browser-based time management application that helps you stay focused by visualizing how much time you have **left**, rather than how much time has already passed.
+
+Instead of displaying timers as something that simply counts down, TimeGauge emphasizes the gradual disappearance of your remaining time, encouraging better awareness, prioritization, and productivity.
+
+---
+
+## ✨ Features
+
+* 📋 Create and manage multiple activities
+* ⏱️ Start, pause, resume, reset, or delete timers independently
+* 📊 Animated progress bars that shrink as time runs out
+* 🎨 Dynamic progress bar colors based on remaining time
+
+  * 🟢 Plenty of time
+  * 🟡 Running low
+  * 🔴 Almost gone
+* 💾 Automatic data persistence using Local Storage
+* 🔄 Timers continue correctly after refreshing or reopening the browser
+* 🔔 Audio notification when a timer finishes
+* 📱 Responsive design for desktop and mobile devices
+* 🚀 Deployable directly on GitHub Pages with no backend
+
+---
+
+## 💡 Why TimeGauge?
+
+Most timer applications focus on **how much time has passed**.
+
+TimeGauge focuses on **how much time remains**.
+
+Watching your available time gradually disappear creates a stronger sense of urgency and helps you make more intentional decisions about how you spend your day.
+
+Time is a limited resource. TimeGauge is designed to make that resource visible.
+
+---
+
+## 🚀 Live Demo
+
+https://koufuu15.github.io/TimeGauge2/
+
+---
+
+## 🚀 Getting Started
+
+Clone this repository:
+
+### HTTPS
+```bash
+git clone https://github.com/Koufuu15/TimeGauge2.git
+cd TimeGauge2
+```
+
+### SSH
+```bash
+git clone git@github.com:Koufuu15/TimeGauge2.git
+cd TimeGauge2
+```
+
+> ⚠️ **Note:** Due to versioning, the repository is currently named **`TimeGauge2`** instead of **`TimeGauge`**. Sorry for the inconvenience.
+
+Open `index.html` in your browser.
+
+---
+
+## 🛠️ Tech Stack
+
+* HTML5
+* CSS3
+* JavaScript (ES Modules)
+* Local Storage API
+* Web Audio API
+
+No backend or external frameworks are required.
+
+---
+
+## 📂 Project Structure
+
+```text
+.
+├── index.html
+├── css/
+│   └── style.css
+└── js/
+    ├── app.js
+    ├── audio.js
+    ├── renderer.js
+    ├── state.js
+    ├── storage.js
+    ├── timer.js
+    ├── toast.js
+    └── utils.js
+```
+
+---
+
+## 🎯 Philosophy
+
+TimeGauge is built around a simple idea:
+
+> **Don't watch time pass. Watch your remaining time disappear.**
+
+By shifting your perspective from elapsed time to remaining time, TimeGauge encourages more mindful and purposeful work.
+
+---
+
+## 📄 License
+
+This project is released under the MIT License.
