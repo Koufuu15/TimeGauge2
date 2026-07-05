@@ -44,11 +44,12 @@ export function load() {
                         activity.endTime
                     );
 
-                if (activity.remainingSeconds <= 0) {
-                    activity.remainingSeconds = 0;
-                    activity.isRunning = false;
+                // 0秒を過ぎても止めない
+                if (
+                    activity.remainingSeconds <= 0 &&
+                    !activity.isFinished
+                ) {
                     activity.isFinished = true;
-                    activity.endTime = null;
                 }
 
             }
