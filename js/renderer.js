@@ -9,8 +9,19 @@ import {
     removeActivity
 } from "./state.js";
 
-import { formatTime, formatDuration, getPercentage, getProgressClass } from "./utils.js";
-import { startTimer, pauseTimer, resetTimer } from "./timer.js";
+import {
+    formatTime,
+    formatDuration,
+    getPercentage,
+    getProgressClass
+} from "./utils.js";
+
+import {
+    startTimer,
+    pauseTimer,
+    resetTimer
+} from "./timer.js";
+
 import { saveDebounced } from "./storage.js";
 
 const activityList = document.getElementById("activity-list");
@@ -19,42 +30,72 @@ const emptyState = document.getElementById("empty-state");
 const totalTime = document.getElementById("total-time");
 const activityCount = document.getElementById("activity-count");
 const runningCount = document.getElementById("running-count");
+const totalOvertime = document.getElementById("total-overtime");
 
 export function render() {
+
     const { activities } = getState();
 
     totalTime.textContent = formatDuration(getTotalSeconds());
     activityCount.textContent = activities.length;
     runningCount.textContent = getRunningCount();
 
+    // 合計オーバー時間
+    if (totalOvertime) {
+
+        const overtime = activities.reduce((sum, activity) => {
+
+            if (activity.remainingSeconds < 0) {
+                return sum + Math.abs(activity.remainingSeconds);
+            }
+
+            return sum;
+
+        }, 0);
+
+        totalOvertime.textContent = formatTime(overtime);
+
+    }
+
     if (activities.length === 0) {
+
         activityList.innerHTML = "";
         emptyState.classList.remove("hidden");
         return;
+
     }
 
     emptyState.classList.add("hidden");
 
-    activityList.innerHTML = activities
-        .map(createCard)
-        .join("");
+    activityList.innerHTML =
+        activities
+            .map(createCard)
+            .join("");
 
     bindEvents();
+
 }
 
 function createCard(activity) {
+
     const percent = getPercentage(
         activity.remainingSeconds,
         activity.totalSeconds
     );
 
-    const progressClass = getProgressClass(percent);
+    const progressClass =
+        getProgressClass(percent);
+
+    const overtime =
+        activity.remainingSeconds < 0;
 
     return `
         <div class="activity-card" data-id="${activity.id}">
 
             <div class="activity-header">
+
                 <div>
+
                     <div class="activity-title">
                         ${activity.name}
                     </div>
@@ -62,35 +103,31 @@ function createCard(activity) {
                     <small>
                         ${formatTime(activity.totalSeconds)}
                     </small>
+
                 </div>
 
-                <div class="activity-time">
+                <div class="activity-time ${overtime ? "danger" : ""}">
                     ${formatTime(activity.remainingSeconds)}
                 </div>
+
             </div>
 
             <div class="progress">
+
                 <div
                     class="progress-fill ${progressClass}"
                     style="width:${percent}%">
                 </div>
+
             </div>
 
             <div class="actions">
 
                 <button
-                    class="${
-                        activity.isRunning
-                            ? "pause-btn"
-                            : "start-btn"
-                    }"
+                    class="${activity.isRunning ? "pause-btn" : "start-btn"}"
                     data-action="toggle">
 
-                    ${
-                        activity.isRunning
-                            ? "Pause"
-                            : "Start"
-                    }
+                    ${activity.isRunning ? "Pause" : "Start"}
 
                 </button>
 
@@ -153,14 +190,9 @@ function bindEvents() {
                 .querySelector('[data-action="delete"]')
                 .onclick = () => {
 
-                    if (
-                        confirm(
-                            "Delete this activity?"
-                        )
-                    ) {
+                    if (confirm("Delete this activity?")) {
 
                         removeActivity(id);
-
                         saveDebounced();
 
                     }

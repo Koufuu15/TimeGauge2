@@ -31,7 +31,11 @@ export function startTimer(id) {
         );
 
         activity.isRunning = true;
-        activity.isFinished = false;
+
+        // 一度終了していても再開できる
+        if (activity.remainingSeconds >= 0) {
+            activity.isFinished = false;
+        }
     });
 
     saveDebounced();
@@ -85,14 +89,15 @@ function updateTimers() {
 
         updateActivity(activity.id, current => {
 
+            // 負の値まで保持
             current.remainingSeconds = remaining;
 
-            if (remaining <= 0) {
-
-                current.remainingSeconds = 0;
-                current.isRunning = false;
+            // 0秒を初めて通過した瞬間だけ通知
+            if (
+                remaining <= 0 &&
+                !current.isFinished
+            ) {
                 current.isFinished = true;
-                current.endTime = null;
 
                 playCompleteSound();
 
@@ -101,6 +106,10 @@ function updateTimers() {
                     "success"
                 );
             }
+
+            // endTime は消さない
+            // isRunning も false にしない
+            // Pause が押されるまで動き続ける
 
         });
 
